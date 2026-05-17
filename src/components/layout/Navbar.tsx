@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -13,7 +14,7 @@ const navLinks = [
   { name: "Gallery", href: "/gallery" },
   { name: "Services", href: "/services" },
   { name: "Projects", href: "/projects" },
-  { name: "Testimonials", href: "/testimonials" },
+  // { name: "Testimonials", href: "/testimonials" },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
 ];
@@ -24,7 +25,7 @@ export default function Navbar() {
 
   const pathname = usePathname();
 
-  // Navbar background on scroll
+  // Navbar shadow on scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -42,23 +43,25 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? "bg-background/90 backdrop-blur-md border-b border-border shadow-sm py-3"
-        : "bg-transparent py-5"
+      className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 transition-all duration-300 ${scrolled ? "shadow-md py-2" : "shadow-sm py-3"
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-sm bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg sm:text-xl transition-transform duration-300 hover:scale-105">
-              V
-            </div>
+        <div className="flex items-center justify-between h-20 relative">
 
-            <span className="font-heading font-bold text-base sm:text-lg lg:text-xl uppercase tracking-wide text-foreground whitespace-nowrap">
-              Velavan Wood
-            </span>
-          </Link>
+          <div className="flex items-center w-36 sm:w-44 md:w-52 h-full relative">
+            <Link href="/" className="absolute top-1/2 -translate-y-1/2 left-0 z-50 group">
+              <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 overflow-visible transition-transform duration-300 group-hover:scale-105 drop-shadow-md">
+                <Image
+                  src="/images/logo.png"
+                  alt="Sri Velavan Heritage Logo"
+                  fill
+                  className="object-contain" // லோகோ கட் ஆகாமல் முழுமையாகத் தெரிய உதவும்
+                  priority
+                />
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
@@ -69,9 +72,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`relative text-sm uppercase tracking-wider transition-colors duration-300 hover:text-primary ${isActive
-                    ? "text-primary font-semibold"
-                    : "text-white"
+                  className={`relative text-sm font-medium uppercase tracking-wider transition-colors duration-300 hover:text-primary ${isActive ? "text-primary font-bold" : "text-slate-800"
                     }`}
                 >
                   {link.name}
@@ -91,7 +92,7 @@ export default function Navbar() {
           <button
             aria-label="Toggle Menu"
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-foreground"
+            className="lg:hidden p-2 text-slate-800 relative z-50"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -135,9 +136,7 @@ export default function Navbar() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-base uppercase tracking-wider transition-colors duration-300 ${isActive
-                        ? "text-primary font-semibold"
-                        : "text-foreground"
+                      className={`text-base uppercase tracking-wider transition-colors duration-300 ${isActive ? "text-primary font-semibold" : "text-foreground"
                         }`}
                     >
                       {link.name}
